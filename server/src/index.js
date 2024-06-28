@@ -1,25 +1,19 @@
 import express from 'express'
-import mysql from 'mysql'
-import 'dotenv/config'
-import financialRecordRouter from "./routes/financial-records.js"
+import dotenv from 'dotenv'
+import financeRouter from './routes/financial-records.js'
 
 const app = express();
+dotenv.config();
+
 const port = process.env.PORT || 3001;
 
 app.use(express.json());
 
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "password",
-    database: "finance"
+app.get('/', (req, res) => {
+    res.json("Hello from the backend!")
 });
 
-app.use("/financial-records", financialRecordRouter)
-
-app.get("/", (req, res) => (
-    res.json("hello this is the backend")
-));
+app.use("/finance", financeRouter)
 
 // app.get("/finance", (req, res) => {
 //     const q = "SELECT * FROM financialrecord"
