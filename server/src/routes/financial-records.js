@@ -26,16 +26,30 @@ router.get("/", async (req, res) => {
 router.get('/:userId', async (req, res) => {
     try {
         const id = req.params.userId;
-        console.log(id);
         const q = "SELECT * FROM financialrecord WHERE userId = ?"
         db.query(q, [id], (err, data) => {
-            // if (err) return res.json(err)
-            console.log(data);
+            if (err) return res.json(err)
             return res.json(data)
         })
     } catch (error) {
         console.log(error)
     }
+});
+
+router.post('/', async (req, res) => {
+    const q = "INSERT INTO personalfinancetracker.financialrecord (`date`, `description`, `amount`, `category`, `paymentMethod`) VALUES (?)"
+    const values = [
+        req.body.date,
+        req.body.description,
+        req.body.amount,
+        req.body.category,
+        req.body.paymentMethod
+    ]
+
+    db.query(q, [values], (err, data) => {
+        if (err) return res.json(err);
+        return res.json("User has been succesfully added to the database!")
+    })
 });
 
 export default router;
