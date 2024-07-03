@@ -1,7 +1,6 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import financeRouter from './routes/financial-records.js'
-import getUserIdRouter from './routes/financial-records.js'
 
 const app = express();
 dotenv.config();

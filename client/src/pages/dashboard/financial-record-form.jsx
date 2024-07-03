@@ -33,32 +33,36 @@ export const FinancialRecordForm = () => {
     <div className="text-white font-bold">
       <form onSubmit={handleSubmit}>
         <div className="mb-2">
-          <label htmlFor="">Description:</label>
+          <label htmlFor="description">Description:</label>
           <input
             type="text"
+            id="description"
             required
             className="ml-2 bg-slate-900 rounded-md"
             value={description}
+            name="input-text-description"
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
 
         <div className="mb-2">
-          <label htmlFor="">Amount:</label>
+          <label htmlFor="amount">Amount:</label>
           <input
             type="number"
+            id="amount"
             required
             className="ml-2 bg-slate-900 rounded-md"
             value={amount}
+            name="input-text-amount"
             onChange={(e) => setAmount(e.target.value)}
           />
         </div>
 
         <div className="mb-2">
-          <label htmlFor="">Category:</label>
+          <label htmlFor="category">Category:</label>
           <select
-            name=""
-            id=""
+            name="select-category"
+            id="category"
             required
             className="ml-2 bg-slate-900 rounded-md px-5"
             value={category}
@@ -75,10 +79,10 @@ export const FinancialRecordForm = () => {
         </div>
 
         <div>
-          <label htmlFor="">Payment Method:</label>
+          <label htmlFor="payment-method">Payment Method:</label>
           <select
-            name=""
-            id=""
+            name="select-payment-method"
+            id="payment-method"
             required
             className="ml-2 bg-slate-900 rounded-md px-5"
             value={paymentMethod}
@@ -99,7 +103,7 @@ export const FinancialRecordForm = () => {
           >
             Add Record
           </button>
-          <Link to={'/finances'}>
+          <Link to={"/finances"}>
             <button
               className="bg-slate-900 rounded-md hover:border-white border-slate-500 border-2
             cursor-pointer px-2 py-1"

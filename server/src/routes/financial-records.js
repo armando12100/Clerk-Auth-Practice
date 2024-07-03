@@ -56,6 +56,25 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/:userId", (req, res) => {
+  const id = req.params.userId;
+  const q =
+    "UPDATE financialrecord SET `date` = ?,`description` = ?, `amount` = ?,`category` = ?, `paymentMethod` = ? WHERE userId = ?";
+
+  const values = [
+    req.body.date,
+    req.body.description,
+    req.body.amount,
+    req.body.category,
+    req.body.paymentMethod,
+  ];
+
+  db.query(q, [...values, id], (err, data) => {
+    if (err) return res.json(err);
+    return res.json("Book has been updates successfully!");
+  });
+});
+
 router.delete("/:userId", async (req, res) => {
   try {
     const id = req.params.userId;
