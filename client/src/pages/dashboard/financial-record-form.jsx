@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
 export const FinancialRecordForm = () => {
   const [description, setDescription] = useState("");
@@ -10,20 +9,6 @@ export const FinancialRecordForm = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
 
   const { user } = useUser();
-
-  const [userData, setUserData] = useState([]);
-
-  useEffect(() => {
-    const fetchAllBooks = async () => {
-      try {
-        const res = await axios.get("http://localhost:3000/finance");
-        setUserData(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchAllBooks();
-  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -128,19 +113,6 @@ export const FinancialRecordForm = () => {
           </Link>
         </div>
       </form>
-      <div className="pl-4 flex justify-center">
-        {userData.map((users) => (
-          <div
-            key={users.id}
-            className="border-2 border-gray-700 flex flex-col text-center px-4 mr-8 rounded-lg mt-10"
-          >
-            <h1>{users.description}</h1>
-            <p className="">{users.category}</p>
-            <h2 className="font-bold">{users.amount}</h2>
-            <p>{users.date.slice(0,10)}</p>
-          </div>
-        ))}
-      </div>
     </div>
   );
 };
