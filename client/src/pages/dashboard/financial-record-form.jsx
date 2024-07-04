@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { Link } from "react-router-dom";
+import axios from 'axios'
 
 export const FinancialRecordForm = () => {
   const [description, setDescription] = useState("");
@@ -9,6 +10,20 @@ export const FinancialRecordForm = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
 
   const { user } = useUser();
+
+  const [userData, setUserData] = useState([])
+
+  useEffect(() => {
+    const fetchAllUsers = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/finance")
+        console.log(res)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchAllUsers()
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault();

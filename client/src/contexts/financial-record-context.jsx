@@ -10,7 +10,6 @@ export const FinanceProvider = ({children}) => {
         setCount(prevcount => prevcount + 1)
     }
 
-
     return (
         <FinanceContext.Provider value={{ count, setCount, addCount}}>
             {children}
