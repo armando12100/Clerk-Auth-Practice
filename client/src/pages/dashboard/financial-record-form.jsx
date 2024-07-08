@@ -1,37 +1,57 @@
 import { useState } from "react";
-import { useUser } from "@clerk/clerk-react";
+// import { useUser } from "@clerk/clerk-react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export const FinancialRecordForm = () => {
-  const [description, setDescription] = useState("");
-  const [amount, setAmount] = useState("");
-  const [category, setCategory] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("");
+  // const [description, setDescription] = useState("");
+  // const [amount, setAmount] = useState("");
+  // const [category, setCategory] = useState("");
+  // const [paymentMethod, setPaymentMethod] = useState("");
 
-  const { user } = useUser();
+  const [finances, setFinances] = useState({
+    date: "",
+    description: "",
+    amount: null,
+    category: "",
+    paymentMethod: "",
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // const { user } = useUser();
 
-    const newRecord = {
-      userID: user?.id,
-      date: new Date(),
-      description: description,
-      amount: parseFloat(amount),
-      category: category,
-      paymentMethod: paymentMethod,
-    };
-
-    // addRecord(newRecord);
-    setDescription("");
-    setAmount("");
-    setCategory("");
-    setPaymentMethod("");
+  const handleChange = (e) => {
+    setFinances((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    console.log(finances);
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); 
+    try {
+      await axios.post("http://localhost:3000/finance", finances)
+      console.log("worked hehe")
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  //   const newRecord = {
+  //     userID: user?.id,
+  //     date: new Date(),
+  //     description: description,
+  //     amount: parseFloat(amount),
+  //     category: category,
+  //     paymentMethod: paymentMethod,
+  //   };
+
+  //   addRecord(newRecord);
+  //   setDescription("");
+  //   setAmount("");
+  //   setCategory("");
+  //   setPaymentMethod("");
 
   return (
     <div className="text-white font-bold">
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className="mb-2">
           <label htmlFor="description">Description:</label>
           <input
@@ -39,9 +59,8 @@ export const FinancialRecordForm = () => {
             id="description"
             required
             className="ml-2 bg-slate-900 rounded-md"
-            value={description}
-            name="input-text-description"
-            onChange={(e) => setDescription(e.target.value)}
+            name="description"
+            onChange={handleChange}
           />
         </div>
 
@@ -52,41 +71,38 @@ export const FinancialRecordForm = () => {
             id="amount"
             required
             className="ml-2 bg-slate-900 rounded-md"
-            value={amount}
-            name="input-text-amount"
-            onChange={(e) => setAmount(e.target.value)}
+            name="amount"
+            onChange={handleChange}
           />
         </div>
 
         <div className="mb-2">
           <label htmlFor="category">Category:</label>
           <select
-            name="select-category"
+            name="category"
             id="category"
             required
             className="ml-2 bg-slate-900 rounded-md px-5"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={handleChange}
           >
             <option value="">Select a Category</option>
-            <option value="">Food</option>
-            <option value="">Rent</option>
-            <option value="">Salary</option>
-            <option value="">Utilities</option>
-            <option value="">Entertainment</option>
-            <option value="">Other</option>
+            <option value="Food">Food</option>
+            <option value="Rent">Rent</option>
+            <option value="Salary">Salary</option>
+            <option value="Utilities">Utilities</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Other">Other</option>
           </select>
         </div>
 
         <div>
           <label htmlFor="payment-method">Payment Method:</label>
           <select
-            name="select-payment-method"
+            name="paymentMethod"
             id="payment-method"
             required
             className="ml-2 bg-slate-900 rounded-md px-5"
-            value={paymentMethod}
-            onChange={(e) => setPaymentMethod(e.target.value)}
+            onChange={handleChange}
           >
             <option value="">Select a Payment Method</option>
             <option value="Credit Card">Credit Card</option>
@@ -95,11 +111,24 @@ export const FinancialRecordForm = () => {
           </select>
         </div>
 
+        <div className="mb-2">
+          <label htmlFor="date">Date:</label>
+          <input
+            type="text"
+            id="date"
+            required
+            className="ml-2 bg-slate-900 rounded-md"
+            name="date"
+            onChange={handleChange}
+          />
+        </div>
+
         <div className="flex justify-center pt-6">
           <button
             type="submit"
             className="bg-slate-900 rounded-md hover:border-white border-slate-500 border-2
                 cursor-pointer px-2 py-1 mr-2"
+            onClick={handleSubmit}
           >
             Add Record
           </button>
