@@ -2,29 +2,30 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-export const FinancialRecordList = () => {
-  const [userData, setUserData] = useState([]);
+export const FinancialRecordEdit = () => {
 
-  useEffect(() => {
-    const fetchAllBooks = async () => {
+    const [userData, setUserData] = useState([]);
+
+    useEffect(() => {
+      const fetchAllBooks = async () => {
+        try {
+          const res = await axios.get("http://localhost:3000/finance");
+          setUserData(res.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchAllBooks();
+    }, []);
+
+    const handleUpdate = async (id) => {
       try {
-        const res = await axios.get("http://localhost:3000/finance");
-        setUserData(res.data);
+        await axios.put('http://localhost:3000/finance/'+id)
+        window.location.reload();
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
-    };
-    fetchAllBooks();
-  }, []);
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete("http://localhost:3000/finance/" + id);
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
     }
-  };
 
   return (
     <div className="bg-black h-screen flex flex-col justify-center items-center">
@@ -42,21 +43,12 @@ export const FinancialRecordList = () => {
             </div>
 
             <div className="flex justify-center w-5/6">
-              <Link to={`/update/${users.userId}`}>
-                <button
-                  className="bg-slate-900 rounded-md hover:border-white border-slate-500 border-2
-            cursor-pointer px-2 py-2 text-white mt-5 font-bold text-lg mr-1"
-                >
-                  Edit
-                </button>
-              </Link>
-
               <button
                 className="bg-slate-900 rounded-md hover:border-white border-slate-500 border-2
-            cursor-pointer px-2 y-2 text-white mt-5 font-bold text-lg"
-                onClick={() => handleDelete(users.userId)}
+            cursor-pointer px-2 py-2 text-white mt-5 font-bold text-lg mr-1"
+            onClick={() => handleUpdate(users.userId)}
               >
-                Delete
+                Update Finance
               </button>
             </div>
           </div>
@@ -71,5 +63,5 @@ export const FinancialRecordList = () => {
         </button>
       </Link>
     </div>
-  );
-};
+  )
+}

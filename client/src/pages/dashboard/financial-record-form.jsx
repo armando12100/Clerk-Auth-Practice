@@ -9,8 +9,22 @@ export const FinancialRecordForm = () => {
   // const [category, setCategory] = useState("");
   // const [paymentMethod, setPaymentMethod] = useState("");
 
+  function formatDate() {
+    var d = new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
   const [finances, setFinances] = useState({
-    date: "",
+    date: formatDate(),
     description: "",
     amount: null,
     category: "",
@@ -109,18 +123,6 @@ export const FinancialRecordForm = () => {
             <option value="Cash">Cash</option>
             <option value="Bank Transfer">Bank Transfer</option>
           </select>
-        </div>
-
-        <div className="mb-2">
-          <label htmlFor="date">Date:</label>
-          <input
-            type="text"
-            id="date"
-            required
-            className="ml-2 bg-slate-900 rounded-md"
-            name="date"
-            onChange={handleChange}
-          />
         </div>
 
         <div className="flex justify-center pt-6">

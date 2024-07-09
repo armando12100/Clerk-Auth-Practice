@@ -7,7 +7,8 @@ import {
 import { Dashboard } from "./pages/dashboard";
 import { Auth } from "./pages/auth";
 import { FinancialRecordList } from "./pages/dashboard/financial-record-list";
-import { FinanceProvider } from './contexts/financial-record-context'
+import { FinanceProvider } from './contexts/financial-record-context';
+import { FinancialRecordEdit } from "./pages/dashboard/financial-record-list-edit";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
       />
       <Route path="/auth" element={<Auth />} />
       <Route path="/finances" element={<FinancialRecordList />} />
+      <Route path="/update/:id" element={<FinancialRecordEdit />}/>
     </>
   )
 );
